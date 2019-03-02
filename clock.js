@@ -11,7 +11,8 @@
 									 "<button id='start"+externalId+"' class='w3-bar-item w3-button w3-light-green'>start</button>" +
 									 "<button id='stop"+externalId+"' class='w3-bar-item w3-button w3-red'>stop</button>" +
 									 "<button id='clear"+externalId+"' class='w3-bar-item w3-button w3-black'>clear</button>" +
-								 "</div>"
+								 "</div>" +
+								 "<hr>"+
 						 	 "</div>";
 
 				document.getElementById('myClocks').insertAdjacentHTML('beforeend',myHTML);
@@ -19,7 +20,7 @@
 
 			    worldClocks.push({seconds : 0, minutes : 0, hours : 0, id : externalId});
 
-			    if(document.getElementById('myClocks').childNodes.length > 2)
+			    if(document.getElementById('myClocks').childNodes.length > 1)
 			    	document.getElementById('div'+externalId).className += " w3-opacity-max";
 
 			    console.log(worldClocks);
@@ -115,15 +116,31 @@
 			    });
 			});
 */
-			function changeOrder(){
-			     				var actualTab = document.getElementById('div2');
-				     			console.log('actual tab: ' + actualTab);
+			function changeOrder(order){
+			     				var actualTab = document.getElementById('div'+order);
+				     			console.log('actual tab: ' + actualTab.id);
+				     			console.log('newClassName ' + actualTab.className);
+
 				     			parentTab = actualTab.parentNode;
-				     			console.log('parent node: ' + parentTab);
-				     			parentTab.insertBefore(actualTab,parentTab.childNodes[0]);
-				     			var opacity = actualTab.className.substring(0,actualTab.className.search('w3-opacity'));
-				     			console.log('opacity:' opacity);
+				     			firstChild = document.getElementById('myClocks').childNodes[0];
+
+				     			console.log('parent node: ' + parentTab.id);
+				     			console.log('firstChild: ' + firstChild.id);
+				     			//add opacity to oldActual
+				     			firstChild.className += ' w3-opacity-max';
+
+				     			parentTab.insertBefore(actualTab,firstChild);
+				     			//remove opacity from actualTab
+				     			var newClassName = actualTab.className;
+				     			newClassName = newClassName.substring(0,newClassName.search('w3-opacity-max'));
+				     			actualTab.className = newClassName;
+				     			console.log('newClassName ' + newClassName);
+				     			
+
+
 			     			}
 			createNewClock('1');
 			createNewClock('2');
+			createNewClock('3');
+
 			
