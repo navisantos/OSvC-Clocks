@@ -5,8 +5,8 @@
 			//creating html clock. it is using the incident Ids
 			function createNewClock(externalId) {
 				var myHTML = "<div id='div"+externalId+"' class='w3-container w3-center'>"+
-								 "<h5 id='h5"+externalId+"'>Clock "+externalId+"</h5>"+
-			    				 "<h1 id='h1"+externalId+"'><time>00:00</time></h1>" +
+								 "<h5 id='h5"+externalId+"' style='margin-top:0px;margin-bottom:0px'>Clock "+externalId+"</h5>"+
+			    				 "<h1 id='h1"+externalId+"' style='margin-top:0px;margin-bottom:0px'><time style='margin-top:0px;margin-bottom:0px'>00:00</time></h1>" +
 			    				 "<div class='w3-bar'>" +
 									 "<button id='start"+externalId+"' class='w3-bar-item w3-button w3-light-green'>start</button>" +
 									 "<button id='stop"+externalId+"' class='w3-bar-item w3-button w3-red'>stop</button>" +
@@ -70,7 +70,7 @@
 			function timer(externalId) {
 			    globalT[externalId] = setTimeout(function(){ add(externalId)}, 1000);
 			}
-/* Test script
+
 			ORACLE_SERVICE_CLOUD.extension_loader.load('myContent', '1.0')
 			.then(function(extensionProvider)
 			    {
@@ -111,5 +111,5 @@
 			        });
 			    });
 			});
-*/
-			createNewClock();
+
+//			createNewClock();
