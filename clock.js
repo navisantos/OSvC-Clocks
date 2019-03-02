@@ -1,0 +1,113 @@
+			
+			var globalCounter = 0;
+			var worldClocks = [];
+			var globalT = {};
+			//creating clock   
+			function createNewClock(externalId) {
+				var myHTML = "<div id='div"+externalId+"'>"+
+								 "<h3 id='h5"+externalId+"'>Clock "+externalId+"</h3>"+
+			    				 "<h1 id='h1"+externalId+"'><time>00:00</time></h1>" +
+			    				 "<div class='w3-bar'>" +
+									 "<button id='start"+externalId+"' class='w3-bar-item w3-button w3-light-green'>start</button>" +
+									 "<button id='stop"+externalId+"' class='w3-bar-item w3-button w3-red'>stop</button>" +
+									 "<button id='clear"+externalId+"' class='w3-bar-item w3-button w3-black'>clear</button>" +
+								 "</div>"
+						 	 "</div>";
+
+				document.getElementById('myClocks').insertAdjacentHTML('beforeend',myHTML);
+
+
+			    worldClocks.push({seconds : 0, minutes : 0, hours : 0, id : externalId});
+
+			    console.log(worldClocks);
+			    /* Start Button */
+			    document.getElementById('start'+externalId).addEventListener('click', function(){
+    timer(externalId)});
+
+				/* Stop button */
+				document.getElementById('stop'+externalId).addEventListener('click', function() {
+				    clearTimeout(globalT[externalId]);
+				});
+
+				/* Clear button */
+				document.getElementById('clear'+externalId).addEventListener('click', function() {
+				    document.getElementById('h1'+externalId).textContent = "00:00";
+				    for(i=0;i<worldClocks.length;i++){
+				    	if(worldClocks[i].id == externalId){
+				    		worldClocks[i].seconds = 0;
+				    		worldClocks[i].minutes = 0;
+				    		worldClocks[i].hours = 0;
+				    		globalT[worldClocks[i].id] = 0;
+				    	}
+				    }
+				});
+
+			}
+
+			function add(externalId) {
+				for(i=0; i < worldClocks.length; i++)
+				{
+					//console.log('id: ' + worldClocks[i].id +' seconds: ' + worldClocks[i].seconds);
+					if(worldClocks[i] != undefined){
+						if(worldClocks[i].id == externalId){
+							worldClocks[i].seconds++;
+					    	if (worldClocks[i].seconds >= 60) {
+					        	worldClocks[i].seconds = 0;
+					        	worldClocks[i].minutes++;
+					        	if (worldClocks[i].minutes >= 60) {
+					            	worldClocks[i].minutes = 0;
+					            	worldClocks[i].hours++;
+				        		}
+
+							}
+						}
+						document.getElementById('h1'+worldClocks[i].id).textContent = (worldClocks[i].minutes ? (worldClocks[i].minutes > 9 ? worldClocks[i].minutes : "0" + worldClocks[i].minutes) : "00") + ":" + (worldClocks[i].seconds > 9 ? worldClocks[i].seconds : "0" + worldClocks[i].seconds);
+					}
+				}
+
+			    timer(externalId);
+			}
+			function timer(externalId) {
+			    globalT[externalId] = setTimeout(function(){ add(externalId)}, 1000);
+			}
+
+			ORACLE_SERVICE_CLOUD.extension_loader.load('myContent', '1.0')
+			.then(function(extensionProvider)
+			    {
+			    extensionProvider.getGlobalContext().then(function(globalContext) {
+			        globalContext.registerAction('changeContext', function(retorno) {
+			        	param = retorno
+			        	console.log(param);
+			        	//create clock when the workspace loads
+			        	if(param.acao == 'EditorLoaded') {
+			        		createNewClock(param.newWS);
+			        	}
+			        	//destroy clock and its dependecies
+			     		if(param.acao == 'RecordClosing') {
+			     			document.getElementById('myClocks').removeChild(document.getElementById('div'+param.newWS));
+			     			for(i=0;i<worldClocks.length;i++){
+			     				if(worldClocks[i] != undefined){
+			     					if(worldClocks[i].id == param.newWS){
+				     					clearTimeout(param.newWS);
+				     					delete globalT[param.newWS];
+				     					delete worldClocks[i];
+			     					}	
+			     				}
+			     				
+
+			     			}
+			     		}
+			     		//get Context Change (tab change) events and customize clock view
+			     		if(param.acao == 'CurrentEditorTabChanged'){
+			     			setTimeout(function(){
+			     				var actualTab = document.getElementById('div'+param.newWS);
+				     			console.log('actual tab: ' + actualTab);
+				     			parentTab = actualTab.parentNode;
+				     			console.log('parent node: ' + parentTab);
+				     			parentTab.insertBefore(actualTab,parentTab.childNodes[0]);
+			     			},500)		
+			     		}
+
+			        });
+			    });
+			});
