@@ -74,7 +74,7 @@
 			function timer(externalId) {
 			    globalT[externalId] = setTimeout(function(){ add(externalId)}, 1000);
 			}
-/* for testing
+
 			ORACLE_SERVICE_CLOUD.extension_loader.load('myContent', '1.0')
 			.then(function(extensionProvider)
 			    {
@@ -104,19 +104,6 @@
 			     		//get Context Change (tab change) events and customize clock view
 			     		if(param.acao == 'CurrentEditorTabChanged'){
 			     			setTimeout(function(){
-			     				var actualTab = document.getElementById('div'+param.newWS);
-				     			console.log('actual tab: ' + actualTab);
-				     			parentTab = actualTab.parentNode;
-				     			console.log('parent node: ' + parentTab);
-				     			parentTab.insertBefore(actualTab,parentTab.childNodes[0]);
-			     			},500)		
-			     		}
-
-			        });
-			    });
-			});
-*/
-			function changeOrder(order){
 			     				var actualTab = document.getElementById('div'+order);
 				     			console.log('actual tab: ' + actualTab.id);
 				     			console.log('newClassName ' + actualTab.className);
@@ -135,12 +122,11 @@
 				     			newClassName = newClassName.substring(0,newClassName.search('w3-opacity-max'));
 				     			actualTab.className = newClassName;
 				     			console.log('newClassName ' + newClassName);
-				     			
+			     			},500)		
+			     		}
 
-
-			     			}
-			createNewClock('1');
-			createNewClock('2');
-			createNewClock('3');
+			        });
+			    });
+			});
 
 			
