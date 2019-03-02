@@ -22,20 +22,32 @@
 
 			    if(document.getElementById('myClocks').childNodes.length > 1)
 			    	document.getElementById('div'+externalId).className += " w3-opacity-max";
+			    else
+			    	startAction(externalId);
 
 			    console.log(worldClocks);
 			    /* Start Button */
 			    document.getElementById('start'+externalId).addEventListener('click', function(){
-    timer(externalId)});
+			    	startAction(externalId);
+    			});
 
 				/* Stop button */
 				document.getElementById('stop'+externalId).addEventListener('click', function() {
-				    clearTimeout(globalT[externalId]);
+				    stopAction(externalId);
 				});
 
 				/* Clear button */
 				document.getElementById('clear'+externalId).addEventListener('click', function() {
-				    document.getElementById('h1'+externalId).textContent = "00:00";
+				    clearAction(externalId);
+				});
+			}
+
+			function startAction(externalId){
+				timer(externalId);
+			}
+
+			function clearAction(externalId) {
+				document.getElementById('h1'+externalId).textContent = "00:00";
 				    for(i=0;i<worldClocks.length;i++){
 				    	if(worldClocks[i].id == externalId){
 				    		worldClocks[i].seconds = 0;
@@ -44,8 +56,10 @@
 				    		globalT[worldClocks[i].id] = 0;
 				    	}
 				    }
-				});
+			}
 
+			function stopAction(externalId){
+				clearTimeout(globalT[externalId]);
 			}
 
 			function add(externalId) {
@@ -74,6 +88,7 @@
 			function timer(externalId) {
 			    globalT[externalId] = setTimeout(function(){ add(externalId)}, 1000);
 			}
+
 
 			ORACLE_SERVICE_CLOUD.extension_loader.load('myContent', '1.0')
 			.then(function(extensionProvider)
@@ -113,20 +128,21 @@
 
 				     			console.log('parent node: ' + parentTab.id);
 				     			console.log('firstChild: ' + firstChild.id);
-				     			//add opacity to oldActual
+				     			//add opacity to oldActual and stop timer
 				     			firstChild.className += ' w3-opacity-max';
+				     			stopAction(firstChild.id.substring(3,7));
 
 				     			parentTab.insertBefore(actualTab,firstChild);
-				     			//remove opacity from actualTab
+				     			//remove opacity from actualTab and start timer
 				     			var newClassName = actualTab.className;
 				     			newClassName = newClassName.substring(0,newClassName.search('w3-opacity-max'));
 				     			actualTab.className = newClassName;
 				     			console.log('newClassName ' + newClassName);
-			     			},500)		
-			     		}
+				     			startAction(param.newWS);
+			     			}		
+			     		} 
 
 			        });
 			    });
 			});
-
 			
