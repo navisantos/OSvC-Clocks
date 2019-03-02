@@ -104,7 +104,7 @@
 			     		//get Context Change (tab change) events and customize clock view
 			     		if(param.acao == 'CurrentEditorTabChanged'){
 			     			setTimeout(function(){
-			     				var actualTab = document.getElementById('div'+order);
+			     				var actualTab = document.getElementById('div'+param.newWS);
 				     			console.log('actual tab: ' + actualTab.id);
 				     			console.log('newClassName ' + actualTab.className);
 
