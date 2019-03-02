@@ -19,6 +19,9 @@
 
 			    worldClocks.push({seconds : 0, minutes : 0, hours : 0, id : externalId});
 
+			    if(document.getElementById('myClocks').childNodes.length > 2)
+			    	document.getElementById('div'+externalId).className += " w3-opacity-max";
+
 			    console.log(worldClocks);
 			    /* Start Button */
 			    document.getElementById('start'+externalId).addEventListener('click', function(){
@@ -70,7 +73,7 @@
 			function timer(externalId) {
 			    globalT[externalId] = setTimeout(function(){ add(externalId)}, 1000);
 			}
-
+/* for testing
 			ORACLE_SERVICE_CLOUD.extension_loader.load('myContent', '1.0')
 			.then(function(extensionProvider)
 			    {
@@ -111,5 +114,16 @@
 			        });
 			    });
 			});
-
-//			createNewClock();
+*/
+			function changeOrder(){
+			     				var actualTab = document.getElementById('div2');
+				     			console.log('actual tab: ' + actualTab);
+				     			parentTab = actualTab.parentNode;
+				     			console.log('parent node: ' + parentTab);
+				     			parentTab.insertBefore(actualTab,parentTab.childNodes[0]);
+				     			var opacity = actualTab.className.substring(0,actualTab.className.search('w3-opacity'));
+				     			console.log('opacity:' opacity);
+			     			}
+			createNewClock('1');
+			createNewClock('2');
+			
