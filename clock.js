@@ -120,26 +120,24 @@
 			     		if(param.acao == 'CurrentEditorTabChanged'){
 			     			setTimeout(function(){
 			     				var actualTab = document.getElementById('div'+param.newWS);
-				     			console.log('actual tab: ' + actualTab.id);
-				     			console.log('newClassName ' + actualTab.className);
 
 				     			parentTab = actualTab.parentNode;
 				     			firstChild = document.getElementById('myClocks').childNodes[0];
 
-				     			console.log('parent node: ' + parentTab.id);
-				     			console.log('firstChild: ' + firstChild.id);
 				     			//add opacity to oldActual and stop timer
 				     			firstChild.className += ' w3-opacity-max';
-				     			stopAction(firstChild.id.substring(3,7));
+				     			var exAtual = firstChild.id.substring(3,8);
+				     			console.log('antigoPrimeiro ' + exAtual);
+				     			stopAction(exAtual);
 
 				     			parentTab.insertBefore(actualTab,firstChild);
 				     			//remove opacity from actualTab and start timer
 				     			var newClassName = actualTab.className;
 				     			newClassName = newClassName.substring(0,newClassName.search('w3-opacity-max'));
 				     			actualTab.className = newClassName;
-				     			console.log('newClassName ' + newClassName);
+
 				     			startAction(param.newWS);
-			     			}		
+			     			},500)		
 			     		} 
 
 			        });
