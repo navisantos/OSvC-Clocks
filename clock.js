@@ -105,7 +105,6 @@
 			     		if(param.acao == 'RecordClosing') {
 			     			document.getElementById('myClocks').removeChild(document.getElementById('div'+param.newWS));
 			     			stopAction(param.newWS);
-			     			clearAction(param.newWS);
 			     			for(i=0;i<worldClocks.length;i++){
 			     				if(worldClocks[i] != undefined){
 			     					if(worldClocks[i].id == param.newWS){
